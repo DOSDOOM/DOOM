@@ -15,6 +15,7 @@
  * Created: 03/29/2010
  * Modified: $Date: 2010-06-21 11:08:14 -0400 (Mon, 21 Jun 2010) $
  */
+
 (function(){function B(){return+new Date}var D=function(a,b){if(a===""&&b)return b;var d=a.split(" "),c=d.shift(),e;if(c.charAt(0)=="#"){var g=i.getElementById(c.substring(1));e=g?[g]:[]}else{e=c.charAt(0)!=="."?c.split(".")[0]:"*";var h=c.split("."),j=null;if(e.indexOf("[")!=-1){j=e;e=e.substr(0,e.indexOf("["))}g=function(o){var n=arguments.callee,k;if(!(k=!n.needClass)){k=n.classes;if(o.className.length==0)k=false;else{for(var r=o.className.split(" "),l=k.length,p=0;p<k.length;p++)f.inArray(k[p],
 r)!=-1&&l--;k=l==0}}if(k=k){if(!(k=!n.needAttribute)){n=n.attributes;k=true;for(r=0;r<n.length;r++){l=n[r].split("=");p=l[0].indexOf("!")!=-1||l[0].indexOf("*")!=-1?l[0].charAt(l[0].length-1)+"=":"=";if(p!="=")l[0]=l[0].substring(0,l[0].length-1);switch(p){case "=":k&=o.getAttribute(l[0])===l[1];break;case "!=":k&=o.getAttribute(l[0])!==l[1];break;case "*=":k&=o.getAttribute(l[0]).indexOf(l[1])!=-1;break;default:k=false}}k=k}k=k}if(k)return o};for(var u=[],s=0;s<b.length;s++)for(var C=b[s].getElementsByTagName(e),
 v=0;v<C.length;v++)u.push(C[v]);h&&h.shift();e=[];g.classes=h;if(j!=null){var w=j.indexOf("[");s=j.lastIndexOf("]");w=j.substring(w+1,s).split("][")}g.attributes=j!=null?w:null;g.needClass=c.indexOf(".")!=-1&&h.length>0;g.needAttribute=j!=null;for(c=0;c<u.length;c++)g(u[c])&&e.push(u[c])}return D(d.join(" "),e)},Q=function(a,b){b=b||i;if(a.nodeType&&a.nodeType===E){a=i.body;if(a===null)return[i]}if(a.nodeType&&a.nodeType===m)return[a];if(a.jquery&&typeof a.jquery==="string")return a.toArray();if(b)b=
@@ -89,6 +90,7 @@ function(a,b){jQuery.fn[b]=function(d){return d?this.bind(b,d):this.trigger(b)}}
 
     Dosbox.prototype.requestFullScreen = function() {
       if (this.module.requestFullScreen) {
+		  console.log(this.module)
         return this.module.requestFullScreen(true, false);
       }
     };
@@ -259,14 +261,15 @@ function(a,b){jQuery.fn[b]=function(d){return d?this.bind(b,d):this.trigger(b)}}
     }
 
     UI.prototype.onStart = function(fun) {
-		
-		return this.start.click((function(_this) {
-			
-				fun();
-				return _this.overlay.hide();
-				
-		})
-		(this));
+		 
+      return this.start.click((function(_this) {
+		 
+        return function() {
+				 document.getElementById('dosbox').requestFullscreen();
+          fun();
+          return _this.overlay.hide();
+        };
+      })(this));
     };
 
     UI.prototype.appendCss = function() {
@@ -295,8 +298,7 @@ function(a,b){jQuery.fn[b]=function(d){return d?this.bind(b,d):this.trigger(b)}}
       return this.loader.hide();
     };
 
-    UI.prototype.css = '.dosbox-container { position: relative; min-width: 320px; min-height: 200px; } .dosbox-canvas { } .dosbox-overlay, .dosbox-loader { position: absolute; left: 0; right: 0; top: 0; bottom: 0; background-color: #333; } .dosbox-start { text-align: center; position: absolute; left: 0; right: 0; bottom: 50%; color: #f80; font-size: 1.5em; text-decoration: underline; cursor: pointer; } .dosbox-overlay a { color: #f80; } .dosbox-loader { display: none; } .dosbox-powered { position: absolute; right: 1em; bottom: 1em; font-size: 0.8em; color: #9C9C9C; } .dosbox-loader-message { text-align: center; position: absolute; left: 0; right: 0; bottom: 50%; margin: 0 0 -3em 0; box-sizing: border-box; color: #f80; font-size: 1.5em; } @-moz-keyframes loading { 0% { left: 0; } 50% { left: 8.33333em; } 100% { left: 0; } } @-webkit-keyframes loading { 0% { left: 0; } 50% { left: 8.33333em; } 100% { left: 0; } } @keyframes loading { 0% { left: 0; } 50% { left: 8.33333em; } 100% { left: 0; } } .st-loader { width: 10em; height: 2.5em; position: absolute; top: 50%; left: 50%; margin: -1.25em 0 0 -5em; box-sizing: border-box; } .st-loader:before, .st-loader:after { content: ""; display: block; position: absolute; top: 0; bottom: 0; width: 1.25em; box-sizing: border-box; border: 0.25em solid #f80; } .st-loader:before { left: -0.76923em; border-right: 0; } .st-loader:after { right: -0.76923em; border-left: 0; } .st-loader .equal { display: block; position: absolute; top: 50%; margin-top: -0.5em; left: 4.16667em; height: 1em; width: 1.66667em; border: 0.25em solid #f80; box-sizing: border-box; border-width: 0.25em 0; -moz-animation: loading 1.5s infinite ease-in-out; -webkit-animation: loading 1.5s infinite ease-in-out; animation: loading 1.5s infinite ease-in-out; }';
-
+  
     return UI;
 
   })();
