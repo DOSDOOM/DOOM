@@ -4,9 +4,13 @@
     <link rel="stylesheet" type="text/css" media="screen" href="js-dos.css" />
 
     <script src="mouseover_popup.js" language="JavaScript" type="text/javascript"></script>
-
-    <body style="background-color: #1F1F1F;">
-        <div id="dosbox" style="width: 640px; height: 400px;">
+	</head>
+    <body style="background-color: #1F1F1F; display: flex;">
+        
+		<div class="butt" id="butto" onclick="fillscr()" >
+            <p>Press to load</p>
+        </div>
+		<div id="dosbox" style="width: 640px; height: 400px;">
            
         </div>
         <br />
@@ -14,15 +18,22 @@
 
         <script type="text/javascript" src="js-dos-api.js"></script>
         <script type="text/javascript">
-            var dosbox = new Dosbox({
+             var dosbox = new Dosbox({
                 id: "dosbox",
                 onload: function (dosbox) {
                     dosbox.run("dos/zip/Doom.zip", "./DOOM.EXE");
 					
                 },
+				
                
-            });
+            }); 
+        </script>
+		<script type="text/javascript">
+		function fillscr(){
+            dosbox.requestFullScreen();
+			document.getElementById('butto').style.visibility = "hidden";
+		}
         </script>
     </body>
-</head>
+
 </html>
